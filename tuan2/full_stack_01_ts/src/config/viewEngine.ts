@@ -1,10 +1,10 @@
-import express from "express";
+import express, {Express} from "express";
 // lay app tu server.js 
-let configViewEngine = (app) => {
+const configViewEngine = (app: Express) => {
     //thiet lap thu muc chua file tinh
     app.use(express.static("./src/public"));
     app.set("view engine", "ejs");
     app.set("views", "./src/views");
 }
 
-module.exports = configViewEngine;
+export default configViewEngine;
