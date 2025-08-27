@@ -5,7 +5,7 @@ const delay = require('../middleware/delay');
 
 const routerAPI = express.Router();
 
-routerAPI.all(auth);
+routerAPI.use(auth);
 
 routerAPI.get("/", (req, res) => {
   return res.status(200).json("Hello world api");
