@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CrownOutlined } from '@ant-design/icons';
 import { Result, List, Card, Pagination, Spin, Typography, message } from 'antd';
-import axios from 'axios';
+import axios from '../util/axios.customize';
 
 const { Title } = Typography;
 
@@ -17,11 +17,11 @@ const HomePage = () => {
   const fetchProducts = async (page) => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:8080/v1/api/products/${categoryId}`, {
+      const response = await axios.get(`/v1/api/products/${categoryId}`, {
         params: { page, limit: 5 } },);
-      setProducts(response.data.products);
-      setCurrentPage(response.data.currentPage);
-      setTotalPages(response.data.totalPages);
+      setProducts(response.products);
+      setCurrentPage(response.currentPage);
+      setTotalPages(response.totalPages);
     } catch (error) {
       console.error('Error fetching products:', error);
       if (error.response?.status === 401) {
