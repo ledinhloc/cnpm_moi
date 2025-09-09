@@ -4,6 +4,9 @@ const auth = require('../middleware/auth');
 const delay = require('../middleware/delay');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
+const productController = require('../controllers/productController');
+const { indexAllProducts } = require('../models/syncProducts');
+
 
 const routerAPI = express.Router();
 
@@ -18,6 +21,16 @@ routerAPI.post("/login", handleLogin);
 
 routerAPI.get("/user", getUser);
 routerAPI.get("/account", delay, getAccount);
+routerAPI.get('/products/search', productController.searchProducts);
+
+routerAPI.post('/sync-products', async (req, res) => {
+  try {
+    await indexAllProducts();
+    res.status(200).send('Products synced to Elasticsearch!');
+  } catch (err) {
+    res.status(500).send('Error syncing products');
+  }
+});
 
 //product
 // Lấy sản phẩm theo danh mục với phân trang
@@ -48,6 +61,7 @@ routerAPI.get('/products/:categoryId', auth, async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 });
+
 
 
 module.exports = routerAPI; 
