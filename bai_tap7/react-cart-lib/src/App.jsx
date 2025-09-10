@@ -42,7 +42,8 @@ const DemoCart = () => {
 
 const App = () => {
   return (
-    <CartProvider>
+    <CartProvider className="cart-app-container">
+      <h1 className="cart-title">Your Shopping Cart</h1>
       <DemoCart />
     </CartProvider>
   );
