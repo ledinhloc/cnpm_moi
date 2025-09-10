@@ -6,14 +6,13 @@ import { Button } from "../Button";
 
 export const Cart = () => {
   const { items } = useCart();
-
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
   return (
     <div className="max-w-6xl mx-auto p-6 grid md:grid-cols-3 gap-8">
       {/* Left - Cart Items */}
       <div className="md:col-span-2">
-        <div className="overflow-x-auto border rounded">
+        <div className="overflow-x-auto border rounded-2xl shadow-sm bg-white">
           <table className="w-full text-left">
             <thead className="bg-gray-100 border-b">
               <tr>
@@ -31,12 +30,12 @@ export const Cart = () => {
         </div>
 
         {/* Coupon + Update */}
-        <div className="flex flex-col md:flex-row gap-4 justify-between mt-4">
+        <div className="flex flex-col md:flex-row gap-4 justify-between mt-6">
           <div className="flex gap-2">
             <input
               type="text"
               placeholder="Coupon code"
-              className="border px-3 py-2 rounded"
+              className="border px-3 py-2 rounded-lg flex-1"
             />
             <Button variant="primary">APPLY COUPON</Button>
           </div>
@@ -45,7 +44,7 @@ export const Cart = () => {
       </div>
 
       {/* Right - Cart Totals */}
-      <div className="border rounded p-6 bg-white h-fit">
+      <div className="border rounded-2xl p-6 bg-white shadow-sm h-fit">
         <h2 className="text-lg font-semibold mb-4">Cart totals</h2>
         <div className="flex justify-between border-b py-2">
           <span>Subtotal</span>
