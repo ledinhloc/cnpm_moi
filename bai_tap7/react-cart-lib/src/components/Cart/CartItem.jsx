@@ -23,21 +23,21 @@ export const CartItem = ({ item, onUpdate, onRemove }) => {
         />
         <span className="font-medium">{item.name}</span>
       </td>
-      <td className="p-4">${item.price.toFixed(2)}</td>
+      <td className="p-16">${item.price.toFixed(2)}</td>
       <td className="p-4">
         <div className="flex items-center gap-2">
-          <Button variant="secondary" onClick={() => onUpdate(item.id, item.quantity - 1)}>
+          {/* <Button variant="secondary" onClick={() => onUpdate(item.id, item.quantity - 1)}>
             -
-          </Button>
+          </Button> */}
           <Input
             type="number"
             value={item.quantity}
             onChange={handleChange}
             className="w-20 text-center"
           />
-          <Button variant="secondary" onClick={() => onUpdate(item.id, item.quantity + 1)}>
+          {/* <Button variant="secondary" onClick={() => onUpdate(item.id, item.quantity + 1)}>
             +
-          </Button>
+          </Button> */}
         </div>
       </td>
       <td className="p-4">${(item.price * item.quantity).toFixed(2)}</td>
