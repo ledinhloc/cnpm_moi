@@ -1,35 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from "react";
+import { CartProvider, CartList, useCart, Button, Input } from "./index";
 
-function App() {
-  const [count, setCount] = useState(0)
+const DemoCart = () => {
+  const { addItem } = useCart();
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+
+  const handleAddProduct = () => {
+    if (!productName || !productPrice) return;
+    addItem({
+      id: Date.now(),
+      name: productName,
+      price: parseFloat(productPrice),
+    });
+    setProductName("");
+    setProductPrice("");
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="max-w-md mx-auto p-4 space-y-3">
+      <h1 className="text-2xl font-bold text-center">Demo Giỏ Hàng</h1>
 
-export default App
+      <div className="flex gap-2">
+        <Input
+          value={productName}
+          onChange={(e) => setProductName(e.target.value)}
+          placeholder="Tên sản phẩm"
+        />
+        <Input
+          value={productPrice}
+          onChange={(e) => setProductPrice(e.target.value)}
+          placeholder="Giá"
+        />
+        <Button onClick={handleAddProduct}>Thêm</Button>
+      </div>
+
+      <CartList />
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <CartProvider>
+      <DemoCart />
+    </CartProvider>
+  );
+};
+
+export default App;

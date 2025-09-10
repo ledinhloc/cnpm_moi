@@ -1,6 +1,9 @@
 // src/components/Cart/CartItem.jsx
 import React from "react";
-import { Button, Input, Card } from "../";
+import { Button } from "../Button";
+import { Input } from "../Input";
+import { Card } from "../Card";
+
 
 export const CartItem = ({ item, onUpdate, onRemove }) => (
   <Card>
