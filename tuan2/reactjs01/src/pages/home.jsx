@@ -14,12 +14,14 @@ const HomePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [sortBy, setSortBy] = useState('');
 
   // Lấy danh mục từ API
   const fetchCategories = async () => {
     try {
       const res = await axios.get('/v1/api/categories');
-      setCategories(res.data.categories || []);
+      setCategories(res.categories || []);
+      console.log(categories);
     } catch (error) {
       console.error('Error fetching categories:', error);
     }
@@ -34,13 +36,14 @@ const HomePage = () => {
         category: selectedCategory,
         minPrice,
         maxPrice,
+        sortBy, 
         page,
         limit: 8, // Số sản phẩm/trang
       };
       const response = await axios.get('/v1/api/products/search', { params });
       setProducts(response.products);
       setCurrentPage(page);
-      setTotalPages(Math.ceil(response.data.total / params.limit));
+      setTotalPages(Math.ceil(response.total / params.limit));
     } catch (error) {
       console.error('Error fetching products:', error);
       message.error('Không thể tải sản phẩm. Vui lòng thử lại.');
@@ -98,6 +101,17 @@ const HomePage = () => {
           onChange={e => setMaxPrice(e.target.value)}
           style={{ width: 100 }}
         />
+        <Select
+          placeholder="Sắp xếp"
+          value={sortBy}
+          onChange={value => setSortBy(value)}
+          allowClear
+          style={{ width: 180 }}
+        >
+          <Option value="price_asc">Giá tăng dần</Option>
+          <Option value="price_desc">Giá giảm dần</Option>
+          <Option value="latest">Mới nhất</Option>
+        </Select>
         <button onClick={handleSearch} style={{ padding: '0 15px' }}>Tìm kiếm</button>
       </div>
 

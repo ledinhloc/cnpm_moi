@@ -1,5 +1,10 @@
 // services/productService.js
 const client = require('../config/elastic');
+const Category = require('../models/Category');
+
+async function getListCategories() {
+  return await Category.find();
+}
 
 async function searchProducts({ query, category, minPrice, maxPrice, sortBy, page = 1, limit = 10 }) {
   const must = [];
@@ -16,7 +21,7 @@ async function searchProducts({ query, category, minPrice, maxPrice, sortBy, pag
   }
 
   if (category) {
-    filter.push({ term: { category } });
+    filter.push({ term: { "category._id": category } });
   }
 
   if (minPrice || maxPrice) {
@@ -53,4 +58,4 @@ async function searchProducts({ query, category, minPrice, maxPrice, sortBy, pag
   return { total: result.hits.total.value, products };
 }
 
-module.exports = { searchProducts };
+module.exports = { searchProducts, getListCategories };

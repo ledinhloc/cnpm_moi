@@ -10,7 +10,13 @@ async function indexProduct(product) {
       name: product.name,
       description: product.description,
       price: product.price,
-      category: product.category.toString(),
+      category: {
+        _id: product.category._id.toString(),
+        name: product.category.name,
+        description: product.category.description,
+        createdAt: product.category.createdAt,
+        updatedAt: product.category.updatedAt
+      },
       stock: product.stock,
       imageUrl: product.imageUrl,
       createdAt: product.createdAt,

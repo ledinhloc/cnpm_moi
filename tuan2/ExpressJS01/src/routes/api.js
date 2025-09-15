@@ -22,6 +22,7 @@ routerAPI.post("/login", handleLogin);
 routerAPI.get("/user", getUser);
 routerAPI.get("/account", delay, getAccount);
 routerAPI.get('/products/search', productController.searchProducts);
+routerAPI.get('/categories', productController.getListCategories);
 
 routerAPI.post('/sync-products', async (req, res) => {
   try {
