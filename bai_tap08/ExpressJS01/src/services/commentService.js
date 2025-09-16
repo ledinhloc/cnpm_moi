@@ -9,8 +9,8 @@ async function  addComment(userId, productId, content) {
     }
 
     const comment = await Comment.create({
-        user: new mongoose.Types.ObjectId(userId),
-        product: new mongoose.Types.ObjectId(productId),
+        user: userId,
+        product: productId,
         content
     })
     console.log(comment);

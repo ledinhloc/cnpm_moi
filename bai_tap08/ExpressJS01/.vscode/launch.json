@@ -9,7 +9,8 @@
       "program": "${workspaceFolder}/src/server.js",
       "restart": true,
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      "runtimeArgs": ["--inspect=9229"]
     }
   ]
 }

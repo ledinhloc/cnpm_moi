@@ -13,6 +13,7 @@ import HomePage from './pages/home.jsx';
 import LoginPage from './pages/login.jsx';
 import ProductPage from './pages/product.jsx'
 import { AuthWrapper } from './components/context/auth.context.jsx';
+import ProductDetail from './pages/ProductDetail.jsx';
 
 const router = createBrowserRouter([
   {
@@ -24,8 +25,8 @@ const router = createBrowserRouter([
         element: <HomePage />
       },
       {
-        path: "product",
-        element: <ProductPage />
+        path: "products/:id",   
+        element: <ProductDetail />
       },
       {
         path: "user",
