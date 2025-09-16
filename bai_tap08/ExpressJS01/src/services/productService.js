@@ -8,6 +8,30 @@ const Order = require('../models/Order');
 const Comment = require('../models/Comment');
 const mongoose = require('mongoose');
 
+
+/* create product */
+async function createProduct(data){
+  try {
+    const category = await Category.findById(data.category);
+    if(!category){
+      throw new Error('Category not found!');
+    }
+
+    const product = await Product.create({
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      category: data.category,
+      imageUrl: data.imageUrl,
+      stock: data.stock || 0,
+    })
+    return product;
+  } catch (err) {
+    throw err;
+  }
+}
+
+
 /**
  * Thêm/xóa sản phẩm yêu thích cho user
  */
@@ -50,7 +74,11 @@ async function getFavorites(userId, page = 1, limit = 20){
 /* ghi nhan 1 luot xem */
 async function addView({userId = null, sessionId = null, productId}){
   try{
-    await Viewed.create({user: userId, sessionId, productId});
+    const product = await Product.findById(productId);
+    if(!product){
+      throw new Error('Product not found');
+    }
+    await Viewed.create({user: userId, sessionId, product});
     await Product.findByIdAndUpdate(productId, { $inc: {views : 1}});
     return true;
   }catch(err){
@@ -102,19 +130,19 @@ async function getSimilarProducts(productId, limit = 8){
   return similar;
 }
 
-async function getProductStats(prodcutId){
-  const product = await Product.findById(prodcutId).select('views favoritesCount');
+async function getProductStats(productId){
+  const product = await Product.findById(productId).select('views favoritesCount');
   const buyers = await Order.aggregate([
-    {$match: { "items.product": mongoose.Types.ObjectId(prodcutId)}},
+    {$match: { "items.product": new mongoose.Types.ObjectId(productId)}},
     {$unwind: "$items"},
-    {$match: {"items.product": mongoose.Types.ObjectId(prodcutId)}},
+    {$match: {"items.product": new mongoose.Types.ObjectId(productId)}},
     {$group: {_id: "$user"}},
     {$count: "buyersCount"}
   ])
 
   const buyersCount = (buyers[0] && buyers[0].buyersCount) ? buyers[0].buyersCount : 0;
 
-  const commentCount = await Comment.countDocuments({product: prodcutId, deleted: false});
+  const commentCount = await Comment.countDocuments({product: productId, deleted: false});
 
   return {
     views: product ? product.views : 0,
@@ -181,12 +209,13 @@ async function searchProducts({ query, category, minPrice, maxPrice, sortBy, pag
 }
 
 module.exports = {
-  earchProducts,
+  searchProducts,
   getListCategories,
   toggleFavorite,
   getFavorites,
   addView,
   getViewed,
   getSimilarProducts,
-  getProductStats
+  getProductStats,
+  createProduct
    };
