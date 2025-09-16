@@ -208,6 +208,10 @@ async function searchProducts({ query, category, minPrice, maxPrice, sortBy, pag
   return { total: result.hits.total.value, products };
 }
 
+async function getProductById(id) {
+  return await Product.findById(id).lean();
+}
+
 module.exports = {
   searchProducts,
   getListCategories,
@@ -217,5 +221,6 @@ module.exports = {
   getViewed,
   getSimilarProducts,
   getProductStats,
-  createProduct
+  createProduct,
+  getProductById
    };

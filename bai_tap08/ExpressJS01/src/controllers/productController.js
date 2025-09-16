@@ -1,5 +1,16 @@
 // controllers/productController.js
+const Product = require('../models/Product');
 const productService = require('../services/productService');
+
+async function getProductById(req, res) {
+  try {
+    const data = await productService.getProductById(req.params.id);
+    return res.json({success: true, ...data});
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+}
 
 async function addProduct(req, res){
   try {
@@ -143,5 +154,6 @@ module.exports = {
   getViewed,
   getSimilar,
   getStats,
-  addProduct
+  addProduct,
+  getProductById
  };
