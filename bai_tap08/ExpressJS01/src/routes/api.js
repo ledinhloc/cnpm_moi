@@ -5,6 +5,7 @@ const delay = require('../middleware/delay');
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 const productController = require('../controllers/productController');
+const commentController = require('../controllers/commentController');
 const { indexAllProducts } = require('../models/syncProducts');
 
 
@@ -50,6 +51,12 @@ routerAPI.get('/products/:id/similar', productController.getSimilar);
 
 //Stats
 routerAPI.get('/products/:id/stats', productController.getStats);
+//comment
+routerAPI.post('/products/:productId/comments', commentController.addComment);
+routerAPI.get('/products/:productId/comments', commentController.getComments);
+routerAPI.put('/comments/:id', commentController.updateComment);
+routerAPI.delete('/comments/:id', commentController.deleteComment);
+
 
 //product
 // Lấy sản phẩm theo danh mục với phân trang
